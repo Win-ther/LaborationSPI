@@ -3,16 +3,15 @@ package se.iths.providers;
 import se.iths.service.Currency;
 import se.iths.service.CurrencyName;
 
-import java.math.BigDecimal;
-@CurrencyName("Euro")
-public class EuroCurrency implements Currency {
+@CurrencyName("Yen")
+public class JapaneseCurrency implements Currency {
     @Override
     public Double convertCurrency(String from, Double amount) {
-        if (from.equalsIgnoreCase("Sek"))
-            return amount*0.086;
-        if (from.equalsIgnoreCase("Yen"))
-            return amount*0.0061;
         if (from.equalsIgnoreCase("Euro"))
+            return amount*164.57;
+        if (from.equalsIgnoreCase("Sek"))
+            return amount*14.10;
+        if (from.equalsIgnoreCase("Yen"))
             return amount;
         return 0.0;
     }
