@@ -44,8 +44,16 @@ public class Main {
     }
 
     private static CurrencyAndValue getCurrencyAndValue(Scanner scanner) {
-        System.out.println("Enter currency from which you want to convert(Euro/Yen/Sek): ");
-        String name = scanner.nextLine();
+        String name = "";
+        while (true) {
+            System.out.println("Enter currency which you want to convert from(Euro/Yen/Sek): ");
+            name = scanner.nextLine();
+            if (!(name.equalsIgnoreCase("Euro") || name.equalsIgnoreCase("Yen") || name.equalsIgnoreCase("Sek"))) {
+                System.out.println("Invalid currency");
+            } else {
+                break;
+            }
+        }
         System.out.println("Enter amount: ");
         double amount = Double.parseDouble(scanner.nextLine());
         return new CurrencyAndValue(name, amount);

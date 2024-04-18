@@ -10,6 +10,3 @@ import java.lang.annotation.Target;
 public @interface CurrencyName {
     String value() default "";
 }
-@interface CurrencyNames {
-    CurrencyName[] value();
-}

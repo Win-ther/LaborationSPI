@@ -3,7 +3,6 @@ package se.iths.providers;
 import se.iths.service.Currency;
 import se.iths.service.CurrencyName;
 
-import java.math.BigDecimal;
 @CurrencyName("Euro")
 public class EuroCurrency implements Currency {
     @Override
