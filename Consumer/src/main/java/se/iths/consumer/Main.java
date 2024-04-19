@@ -18,20 +18,27 @@ public class Main {
         while (true) {
             printMenu(loader);
             choice = scanner.nextLine();
-            switch (choice.toLowerCase()) {
-                case "sek" -> convertMoney(scanner, loader, "Sek");
-                case "yen" -> convertMoney(scanner, loader, "Yen");
-                case "euro" -> convertMoney(scanner, loader, "Euro");
-                case "exit" -> {
-                    break loop;
-                }
-                default -> System.out.println("Invalid choice");
+            while (checkIfCurrencyExists(loader, choice)) {
+                if (choice.equalsIgnoreCase("exit")) break loop;
+
+                System.out.println("Incorrect currency name. Try again.");
+                choice = scanner.nextLine();
             }
+
+            convertMoney(scanner, loader, choice);
         }
     }
 
+    private static boolean checkIfCurrencyExists(ServiceLoader<Currency> loader, String choice) {
+        for (Currency currency : loader) {
+            var annotation = currency.getClass().getAnnotation(CurrencyName.class).value();
+            if (annotation.equalsIgnoreCase(choice)) return false;
+        }
+        return true;
+    }
+
     private static void convertMoney(Scanner scanner, ServiceLoader<Currency> loader, String toCurrency) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        CurrencyAndValue toConvert = getCurrencyAndValue(scanner);
+        CurrencyAndValue toConvert = getCurrencyAndValue(loader,scanner);
         for (Currency currency : loader) {
             var annotation = currency.getClass().getAnnotation(CurrencyName.class).value();
             if (annotation.equalsIgnoreCase(toCurrency)) {
@@ -43,20 +50,17 @@ public class Main {
         }
     }
 
-    private static CurrencyAndValue getCurrencyAndValue(Scanner scanner) {
-        String name = "";
-        while (true) {
-            System.out.println("Enter currency which you want to convert from(Euro/Yen/Sek): ");
-            name = scanner.nextLine();
-            if (!(name.equalsIgnoreCase("Euro") || name.equalsIgnoreCase("Yen") || name.equalsIgnoreCase("Sek"))) {
-                System.out.println("Invalid currency");
-            } else {
-                break;
-            }
+    private static CurrencyAndValue getCurrencyAndValue(ServiceLoader<Currency> loader, Scanner scanner) {
+        String choice;
+        System.out.println("Enter currency which you want to convert from: ");
+        choice = scanner.nextLine();
+        while (checkIfCurrencyExists(loader, choice)) {
+            System.out.println("Incorrect currency name. Try again.");
+            choice = scanner.nextLine();
         }
         System.out.println("Enter amount: ");
         double amount = Double.parseDouble(scanner.nextLine());
-        return new CurrencyAndValue(name, amount);
+        return new CurrencyAndValue(choice, amount);
     }
 
     private static void printMenu(ServiceLoader<Currency> loader) {

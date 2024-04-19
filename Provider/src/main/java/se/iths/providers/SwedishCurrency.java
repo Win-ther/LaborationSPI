@@ -11,8 +11,11 @@ public class SwedishCurrency implements Currency {
             return amount*11.66;
         if (from.equalsIgnoreCase("Yen"))
             return amount*0.071;
-        if (from.equalsIgnoreCase("sek"))
+        if (from.equalsIgnoreCase("USD"))
+            return amount*10.97;
+        if (from.equalsIgnoreCase("sek")) {
             return amount;
+        }
         return 0.0;
     }
 }

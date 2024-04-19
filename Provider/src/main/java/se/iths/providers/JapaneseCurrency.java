@@ -11,8 +11,11 @@ public class JapaneseCurrency implements Currency {
             return amount*164.57;
         if (from.equalsIgnoreCase("Sek"))
             return amount*14.10;
-        if (from.equalsIgnoreCase("Yen"))
+        if (from.equalsIgnoreCase("USD"))
+            return amount * 154.55;
+        if (from.equalsIgnoreCase("Yen")) {
             return amount;
+        }
         return 0.0;
     }
 }
